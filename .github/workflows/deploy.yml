@@ -1,0 +1,27 @@
+name: Deploy to Vercel & Netlify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      - name: Deploy to Vercel
+        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+  deploy-netlify:
+    name: Deploy to Netlify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+      - name: Deploy to Netlify
+        run: netlify deploy --dir=. --prod --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
